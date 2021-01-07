@@ -9,6 +9,7 @@ func Play(player1, player2 player.Player, print func(a ...interface{}) (n int, e
 	p1, p2 := player1, player2
 	gameBoard.drawBoard(print)
 	gameStatus := gameBoard.driveStatus()
+	
 	for gameStatus.progress {
 		gameBoard = update(p1, gameBoard, print)
 		gameStatus = gameBoard.driveStatus()
@@ -27,7 +28,7 @@ func update(p1 player.Player, b board, print func(a ...interface{}) (n int, err 
 	err, updatedBoard := b.update(position, p1.Symbol)
 	if err != nil {
 		print(err.Error())
-		update(p1, b, print)
+		return update(p1, b, print)
 	}
 	return updatedBoard
 }

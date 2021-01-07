@@ -18,7 +18,7 @@ var winingCombination = [8][3]int{
 
 func (s status) deriveStatus(board [9]string) status {
 	for _, combination := range winingCombination {
-		if board[combination[0]] == board[combination[1]] && board[combination[0]] == board[combination[2]] {
+		if board[combination[0]] != "" && board[combination[0]] == board[combination[1]] && board[combination[0]] == board[combination[2]] {
 			s.won = true
 			s.progress = false
 			return s
@@ -30,7 +30,7 @@ func (s status) deriveStatus(board [9]string) status {
 
 func isDraw(board [9]string) bool {
 	for _, symbol := range board {
-		if symbol != "X" && symbol != "O" {
+		if symbol == "" {
 			return false
 		}
 	}

@@ -1,11 +1,13 @@
 package game
 
+import "fmt"
+
 type board struct {
 	cells       [9]string
 	boardStatus status
 }
 
-func (b board) drawBoard(print func(a ...interface{}) (n int, err error)) {
+func (b board) drawBoard(print func(a ...interface{})) {
 	for index, symbol := range b.cells {
 		if symbol == "" {
 			print(index + 1)
@@ -26,6 +28,7 @@ func (e positionOccupied) Error() string {
 }
 
 func (b board) update(position int, symbol string) (error, board) {
+	fmt.Println(position)
 	i := position - 1
 	if b.cells[i] == "" {
 		b.cells[i] = symbol
@@ -34,6 +37,6 @@ func (b board) update(position int, symbol string) (error, board) {
 	return positionOccupied{err: position}, b
 }
 
-func (b board) driveStatus() status {
+func (b board) deriveStatus() status {
 	return b.boardStatus.deriveStatus(b.cells)
 }

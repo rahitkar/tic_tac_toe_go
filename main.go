@@ -6,9 +6,19 @@ import (
 	"tic_tac_toe/src/player"
 )
 
-func main() {
-	player1 := player.Player{Name: "rahit", Symbol: "X", GetMove: fmt.Scanf}
-	player2 := player.Player{Name: "raja", Symbol: "O", GetMove: fmt.Scanf}
+func printer(a...interface{}) {
+	fmt.Print(a...)
+}
 
-	game.Play(player1, player2, fmt.Print)
+func scaner() int {
+	var input int
+	fmt.Scanf("%d", &input)
+	return input
+}
+
+func main() {
+	player1 := player.Player{Name: "rahit", Symbol: "X", GetMove: scaner}
+	player2 := player.Player{Name: "raja", Symbol: "O", GetMove: scaner}
+
+	game.Play(player1, player2, printer)
 }

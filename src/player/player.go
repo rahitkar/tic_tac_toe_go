@@ -3,11 +3,9 @@ package player
 type Player struct {
 	Name    string
 	Symbol  string
-	GetMove func(format string, a ...interface{}) (n int, err error)
+	GetMove func() int
 }
 
 func (p Player) Move() int {
-	var position int
-	p.GetMove("%d", &position)
-	return position
+	return p.GetMove()
 }

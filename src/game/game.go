@@ -4,31 +4,30 @@ import (
 	"tic_tac_toe/src/player"
 )
 
-func Play(player1, player2 player.Player, print func(a ...interface{}) (n int, err error)) {
-	var gameBoard board
+func Play(player1, player2 player.Player, printer func(a ...interface{})) {
+	gameBoard := board{cells: [9]string{}, boardStatus: status{won: false, progress: true}}
 	p1, p2 := player1, player2
-	gameBoard.drawBoard(print)
-	gameStatus := gameBoard.driveStatus()
-	
-	for gameStatus.progress {
-		gameBoard = update(p1, gameBoard, print)
-		gameStatus = gameBoard.driveStatus()
-		gameBoard.drawBoard(print)
+	gameBoard.drawBoard(printer)
+
+	for gameBoard.boardStatus.progress {
+		gameBoard = update(p1, gameBoard, printer)
+		gameBoard.boardStatus = gameBoard.deriveStatus()
+		gameBoard.drawBoard(printer)
 		p1, p2 = swap(p1, p2)
 	}
-	if gameStatus.won {
-		print(p2.Name, " wins")
+	if gameBoard.boardStatus.won {
+		printer(p2.Name, " wins")
 		return
 	}
-	print("game draw")
+	printer("game draw")
 }
 
-func update(p1 player.Player, b board, print func(a ...interface{}) (n int, err error)) board {
+func update(p1 player.Player, b board, printer func(a ...interface{})) board {
 	position := p1.Move()
 	err, updatedBoard := b.update(position, p1.Symbol)
 	if err != nil {
-		print(err.Error())
-		return update(p1, b, print)
+		printer(err.Error())
+		return update(p1, b, printer)
 	}
 	return updatedBoard
 }
